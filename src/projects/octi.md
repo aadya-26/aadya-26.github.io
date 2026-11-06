@@ -5,7 +5,7 @@ tags: E-textiles, accessibility, physical computing, research-through-design
 order: 1
 ---
 
-<!-- ![Four soft fabric keys placed beside a half-QWERTY keyboard on a desk](/images/octi/octi-hero.jpg) -->
+![Four soft fabric keys placed beside a half-QWERTY keyboard on a desk](/images/octi/octi-hero.jpg) 
 
 Octi is a modular soft-circuit input system for a computer user with hemiplegic cerebral palsy. It gives the affected hand a role in desktop work through movements it already does well: pressing down with the fist, forearm, or elbow.
 
@@ -18,35 +18,61 @@ Desktop accessibility setups usually move all the work onto the unaffected hand,
 
 Instead of recreating a keyboard for a hand that can't use one, could that hand take on a different job? I designed around what P1's right arm could already do reliably: whole-hand pressing, forearm sweeps, and elbow movement.
 
+Before the project narrowed, I interviewed five people with motor disabilities about everyday objects, clothing, and tools. Small usability details decided their independence, and they wanted devices that felt personal, not clinical.
+
 ## My role
 
 Researcher, designer, and maker, from observation through fabrication and evaluation. Advised by Harpreet Sareen.
 
 ## Process
 
-<!--![P1's existing desktop setup](/images/octi/octi-setup.jpg) -->
+![P1's existing desktop setup](/images/octi/octi-setup.jpg)
 
 **Observe.** P1 recorded his everyday computer use and isolated movements, and I analysed them remotely. Fine finger control was limited, but squeezing, forearm sweeps, and elbow motion were repeatable.
 
+**Early critique.** My first interaction model had too many modes and asked P1 to hold too much in his head. A critique from faculty reframed the right hand's job: instead of whole shortcuts, give it the modifier keys that make shortcuts possible, so the two hands cooperate the way they do in two-handed typing.
+
+![The four modifier keys on a keyboard: Shift, Control, Option, and Command](/images/octi/octi-modifier-keys.jpg)
+
+
 **Prototype 1.1 to 1.3.** I started with a squeeze gripper for modifier keys and a tabletop pad of large fist-pressable keys. I tested target sizes with paper studies and made an alginate and plaster cast of P1's closed fist to estimate contact area. Prototype 1.3 was the first fully working version, with layered fabric keys and a gripper, and it ran through a Circuit Playground Express acting as a USB keyboard.
 
-<!-- ![Early prototypes: squeeze gripper, hand cast, tabletop mockup](/images/octi/octi-early.jpg) -->
+![Building the tabletop pad: layout, copper contacts, layered key stack, wiring, and leather surfaces](/images/octi/octi-making-pad.jpg)
+
+![Building the squeeze gripper from felt, leather, and cord](/images/octi/octi-making-gripper.jpg)
+
+![Early prototypes: squeeze gripper, hand cast, tabletop mockup](/images/octi/octi-early.jpg) 
 
 **What broke.** In testing, squeezing while typing caused accidental key presses. Reaching for the pad caused fatigue. Mapping Space to the gripper clashed with the remapped layer on his half-QWERTY keyboard.
+
+![Prototype 1.3: the finished pad with labeled keys and the squeeze gripper](/images/octi/octi-pad-gripper.jpg)
 
 **Consult.** An occupational therapist helped me interpret what I had seen. Squeeze is more likely to trigger movement in the other hand as force rises, while pressing down uses larger movements, and the quality of movement drops as targets move away from the arm's resting position.
 
 **Redesign.** I removed the gripper and split the fixed pad into four independent soft keys that P1 can place anywhere beside his keyboard. Everything is now a direct press, and the layout is his to rearrange.
 
+## How the design changed
+
+![Prototype evolution from 1.1 to 1.4: squeeze gripper, tabletop mockup, pad and gripper, independent keys](/images/octi/octi-evolution.jpg)
+
+- **1.1, squeeze gripper.** A soft gripper with a pressure sensor and an LED. One squeeze was repeatable. Sequences of squeezes were not.
+- **1.2, tabletop mockup.** A full-size fabric mockup of fist-pressable keys and mode zones. Walkthroughs showed too much memorizing and switching.
+- **1.3, pad and gripper.** The first working version: large keys plus the gripper, acting as a keyboard. It brought accidental presses while typing, reach fatigue, and a Space key conflict.
+- **1.4, independent keys.** No gripper. Four separate soft keys that P1 places himself, Enter in place of Space, and an arrow-key mode.
+
 ## What I built
 
-<!-- ![Prototype 1.4 system diagram](/images/octi/octi-system.jpg) -->
+ ![Prototype 1.4 system diagram](/images/octi/octi-system.jpg) 
 
 Four keys, each about 2.5 by 2 inches and a quarter inch thick. Each is a layered stack: faux leather top, copper and Velostat pressure sensing, a felt spacer, foam padding, and a Dycem base so it stays put. Conductive thread runs through paracord sleeves to a Circuit Playground Express, which shows up to the computer as an ordinary keyboard with no software to install.
 
+![Material stack from the pad prototype: copper contacts, pressure-sensing layer, and faux leather](/images/octi/octi-materials.jpg)
+
+![Finished key surfaces in faux leather](/images/octi/octi-keys-detail.jpg)
+
 Two modes use the same layout. The default mode gives Ctrl/Cmd, Shift, Alt/Option, and Enter. The second mode gives the four arrow keys. Each key has its own color on the board's LEDs and its own press and release sound, so P1 gets confirmation without looking at the device.
 
-<!-- ![P1 presses two adjacent keys with one fist](/images/octi/octi-in-use.jpg) -->
+![P1 presses two adjacent keys with one fist](/images/octi/octi-in-use.jpg) 
 
 <!-- VIDEO EMBED GOES HERE -->
 
@@ -59,6 +85,15 @@ These are observations from one participant, not general claims.
 - **The existing setup shaped the design.** I replaced Space with Enter because Space conflicted with his keyboard remapping. Enter then worked well for list formatting, and P1 kept adding items past what the task asked for.
 - **P1 redesigned the layout in use.** He moved two modifier keys together so one fist press could hit both.
 - **It was not faster.** A short poem took about 1 minute 10 seconds with his one-handed workflow and about 3 minutes 40 seconds with the prototype. That wasn't the goal. The keys took over capitalization, line breaks, shortcuts, and navigation that his left hand had always done alone. In his words, he would "rather have the option and not use it than not have the option."
+
+### Between the two sessions
+
+| In session 1 | Changed for session 2 |
+|---|---|
+| Windows labels on a Mac caused confusion | Mac labels (Cmd, Opt) |
+| Small labels | Larger, high-contrast labels |
+| No navigation | Arrow-key mode on the same four keys |
+| Cable routing interfered and keys moved | Cleaner routing, Dycem base confirmed |
 
 ## Limits
 
