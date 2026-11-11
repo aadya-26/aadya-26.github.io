@@ -111,4 +111,15 @@ const {
 
   .project pre { overflow-x: auto; padding: 16px; border-radius: 12px; }
 
+  .loop-wrap { position: relative; margin: 32px 0; line-height: 0; }
+  .loop-wrap video { display: block; width: 100%; height: auto; border-radius: 12px; cursor: pointer; }
+  .loop-toggle {
+    position: absolute; right: 12px; bottom: 12px;
+    padding: 6px 12px; border: 0; border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6); color: #fff; font: inherit; font-size: 0.8rem; line-height: 1.2;
+    opacity: 0; transition: opacity 0.2s; cursor: pointer;
+  }
+  .loop-wrap:hover .loop-toggle, .loop-toggle:focus-visible { opacity: 1; }
+  @media (hover: none) { .loop-toggle { opacity: 0.85; } }
+
 </style>

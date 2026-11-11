@@ -13,6 +13,12 @@ This was my final project for Major Studio 2. I made the generative prints in my
 
 The mirrored textures start from Adobe Stock images, which I edited lightly and mirrored.
 
+<div class="video">
+  <iframe src="https://www.youtube-nocookie.com/embed/XAKdUtga59U" title="Turntable of the four After Us, the Wild looks" loading="lazy" allowfullscreen></iframe>
+</div>
+
+*Turntable of all four looks.*
+
 ## Why digital
 
 Fast fashion runs on cycles of overproduction and planned obsolescence, and the waste is enormous. I built the whole collection in CLO 3D, Illustrator, and Python, so no physical samples were made.
