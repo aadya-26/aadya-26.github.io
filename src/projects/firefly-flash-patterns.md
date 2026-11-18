@@ -3,6 +3,8 @@ title: "Firefly Flash Patterns"
 summary: "A wall-mounted data sculpture that replays the real flash patterns of seven North American firefly species, with LED color showing each species' conservation status."
 tags: "Data physicalization, E-textiles, Circuit Playground, Physical computing"
 order: 4
+theme: firefly
+facts: "Context: Data as Material, Parsons | When: Spring 2026 | Data: Seven North American firefly species | Built with: Circuit Playground, LEDs, stitched circuit on fabric"
 ---
 
 ![The Firefly Flash Patterns sculpture on a wall, with three fireflies lit: one green and two amber](/images/firefly/firefly-hero.jpg)

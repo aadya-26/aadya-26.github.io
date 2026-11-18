@@ -1,24 +1,110 @@
 ---
 import Base from '../layouts/Base.astro';
+import '../styles/home.css';
 
 const modules = import.meta.glob('../projects/*.md', { eager: true });
 const projects = Object.entries(modules)
-  .map(([path, mod]) => ({
-    slug: path.split('/').pop().replace('.md', ''),
-    ...mod.frontmatter,
-  }))
+  .map(([path, mod]) => {
+    const raw = typeof mod.rawContent === 'function' ? mod.rawContent() : '';
+    const m = raw.match(/!\[([^\]]*)\]\(([^)\s]+)\)/);
+    return {
+      slug: path.split('/').pop().replace('.md', ''),
+      image: m ? m[2] : null,
+      ...mod.frontmatter,
+    };
+  })
   .sort((a, b) => a.order - b.order);
+const pad = (n) => String(n).padStart(2, '0');
+const total = projects.length;
+const fields = ['E-textiles', 'Physical computing', 'Accessibility research', 'Data physicalization', 'Digital fashion', 'Co-design', 'Data visualization'];
+const scope = projects.map((_, i) => `--card-${i}`).join(', ');
 ---
 <Base>
-  <h1>Creative technologist building wearable, accessible interfaces.</h1>
-  <p class="lede">Fashion, e-textiles, physical computing, and research.</p>
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas class="threads" aria-hidden="true"></canvas>
+    <div class="hero-inner wrap">
+      <p class="kicker"><span>Aadya</span><span aria-hidden="true">/</span><span>Portfolio</span></p>
+      <h1 id="hero-title">Creative technologist building <em>wearable, accessible</em> interfaces.</h1>
+      <div class="hero-foot">
+        <p class="lede">Fashion, e-textiles, physical computing, and research.</p>
+        <p class="hint mono" aria-hidden="true"><span class="hint-fine">Move to part the threads. Click to send a pulse.</span><span class="hint-touch">Tap to send a pulse.</span></p>
+        <a class="cue" href="#work"><span>Selected work</span><span class="cue-arrow" aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+  </section>
 
-  <div class="grid">
-    {projects.map((p) => (
-      <a class="card" href={`/projects/${p.slug}`}>
-        <h2>{p.title}</h2>
-        <p>{p.summary}</p>
-      </a>
-    ))}
+  <div class="band" aria-hidden="true">
+    <div class="band-track">
+      {[0, 1].map(() => fields.map((f) => <span>{f}<i></i></span>))}
+    </div>
   </div>
+
+  <nav class="rail" aria-label="Projects">
+    <ol>
+      {projects.map((p, i) => (
+        <li><a href={`/projects/${p.slug}`} data-rail={i}><span class="rail-n">{pad(i + 1)}</span><span class="rail-t">{p.title}</span></a></li>
+      ))}
+    </ol>
+  </nav>
+
+  <section id="work" class="showcase" aria-label="Selected work" style={`timeline-scope: ${scope}`}>
+    {projects.map((p, i) => (
+      <article class={`card t-${p.theme || 'home'}`} data-card={i} style={`view-timeline-name: --card-${i}`}>
+        <div class={`card-inner wrap${i < total - 1 ? ' sinks' : ''}`} style={i < total - 1 ? `animation-timeline: --card-${i + 1}` : undefined}>
+          <div class="card-text">
+            <p class="card-n mono"><span>{pad(i + 1)}</span><span aria-hidden="true"> / {pad(total)}</span></p>
+            <h2 class="card-title" style={`view-transition-name: title-${p.slug}`}>
+              <a href={`/projects/${p.slug}`}>{p.title}</a>
+            </h2>
+            <p class="card-sum">{p.summary}</p>
+            <p class="card-tags mono">{p.tags}</p>
+            <p class="card-cta" aria-hidden="true">View project <span>→</span></p>
+          </div>
+          {p.image && (
+            <div class="card-media">
+              <img src={p.image} alt="" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+            </div>
+          )}
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="outro" aria-labelledby="outro-title">
+    <div class="wrap outro-grid with-photo">
+      <div>
+        <p class="kicker">About</p>
+        <h2 id="outro-title" data-reveal>I make soft things that compute.</h2>
+        <p class="outro-text" data-reveal>I trained as a fashion designer, then learned to put circuits and code inside the materials I already knew. I build interfaces you can press, wear and feel, with the people who will use them.</p>
+        <p class="outro-links" data-reveal><a class="btn" href="/about">About me</a><a class="btn" href="/cv">CV</a><a class="btn solid" href="/contact">Get in touch</a></p>
+      </div>
+      <div class="outro-photo" data-reveal><img src="/images/aadya.jpg" alt="Portrait of Aadya" width="880" height="1120" loading="lazy" decoding="async" /></div>
+    </div>
+  </section>
+
+  <script>
+    import { initThreads } from '../scripts/threads.js';
+    const c = document.querySelector('canvas.threads');
+    if (c) initThreads(c, c.closest('.hero'));
+
+    // project rail: shows where you are in the showcase, and jumps between projects
+    const rail = document.querySelector('.rail');
+    const cards = [...document.querySelectorAll('.card')];
+    const links = [...document.querySelectorAll('[data-rail]')];
+    const show = document.querySelector('.showcase');
+    if (rail && show && cards.length) {
+      const sync = () => {
+        const r = show.getBoundingClientRect();
+        const inside = r.top < window.innerHeight * 0.5 && r.bottom > window.innerHeight * 0.6;
+        rail.classList.toggle('on', inside);
+        let acc = 0, idx = 0;
+        const y = -r.top + window.innerHeight * 0.5;
+        cards.forEach((c, i) => { if (y >= acc) idx = i; acc += c.offsetHeight; });
+        links.forEach((l, i) => l.classList.toggle('is-current', i === idx));
+      };
+      let tick = false;
+      window.addEventListener('scroll', () => { if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; sync(); }); }, { passive: true });
+      sync();
+    }
+  </script>
 </Base>

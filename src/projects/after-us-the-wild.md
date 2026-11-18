@@ -3,6 +3,8 @@ title: After Us, the Wild
 summary: A speculative digital fashion collection in four looks, built in CLO 3D and generative code, where nature reclaims an industrial ruin.
 tags: Digital speculative fashion, CLO 3D, generative art, Python
 order: 2
+theme: wild
+facts: "Context: Major Studio 2 final project, Parsons | Output: Four digital looks | Tools: CLO 3D, Python, Illustrator | Format: Fully digital, no physical samples"
 ---
 
 ![A digital model on a glowing runway inside an overgrown industrial ruin](/images/wild/wild-hero.jpg)

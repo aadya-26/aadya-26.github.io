@@ -3,6 +3,8 @@ title: "BiiiiG Stretch"
 summary: "A modular, low-effort shoe stretcher designed with a disabled co-designer whose feet fall between kids' and adult shoe sizes. Open Style Lab Accessible Footwear Kits fellowship, 2025."
 tags: "Accessible design, Co-design, 3D printing, Product design"
 order: 3
+theme: osl
+facts: "Role: Design Fellow | Team: Four people, with a disabled co-designer | When: Summer 2025, New Lab, Brooklyn | Recognition: Community Choice Award, Most Impactful Project"
 ---
 
 ![BiiiiG Stretch: a white 3D-printed shoe stretcher with purple plugs, interchangeable knobs and a flexible drive extender](/images/osl/osl-hero.jpg)

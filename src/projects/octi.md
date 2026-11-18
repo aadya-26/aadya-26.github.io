@@ -3,6 +3,8 @@ title: Octi
 summary: Soft, repositionable press-down keys that let the affected hand take part in desktop work.
 tags: E-textiles, accessibility, physical computing, research-through-design
 order: 1
+theme: octi
+facts: "Role: Researcher, designer and maker | Context: MFA thesis, Parsons | Published: ACM DIS 2026, Work in Progress | Built with: Circuit Playground Express, Velostat, conductive thread"
 ---
 
 ![Four soft fabric keys placed beside a half-QWERTY keyboard on a desk](/images/octi/octi-hero.jpg) 

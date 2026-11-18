@@ -1,7 +1,70 @@
 ---
+import fs from 'node:fs';
 import Base from '../layouts/Base.astro';
+
+// Drop a portrait at public/images/aadya.jpg and it appears here on the next build.
+const hasPhoto = fs.existsSync('public/images/aadya.jpg');
 ---
-<Base title="About | Aadya">
-  <h1>About</h1>
-  <p class="lede">A short intro goes here.</p>
+<Base title="About | Aadya" description="Aadya is a creative technologist working across fashion, e-textiles, physical computing and accessibility research.">
+  <section class="page wrap">
+    <p class="kicker">About</p>
+    <h1 class="statement">I make <em>soft things</em> that compute.</h1>
+
+    <div class="about-grid">
+      <div class="about-photo">
+        {hasPhoto
+          ? <img src="/images/aadya.jpg" alt="Portrait of Aadya" width="1100" height="1400" />
+          : <p class="placeholder">[PHOTO: save your portrait as public/images/aadya.jpg]</p>}
+      </div>
+
+      <div class="prose">
+        <p class="big">I'm Aadya, a creative technologist in New York. I work where fashion, e-textiles, physical computing and accessibility research meet.</p>
+        <p>I trained as a fashion designer, so I think in materials first: how a fabric gives, where a seam sits, what a hand does without being told. Then I learned to put circuits and code inside those materials. Most of what I build now is an interface you can press, wear or feel.</p>
+        <p>My MFA thesis at Parsons, <a href="/projects/octi">Octi</a>, is a set of soft press-down keys designed with one computer user who has hemiplegic cerebral palsy, so his affected hand could take part in desktop work. An earlier version of the system was accepted to the ACM DIS 2026 Work-in-Progress track.</p>
+        <p>As the Design Fellow in the Open Style Lab Accessible Footwear Kits fellowship, I worked on a four-person team with a disabled co-designer on <a href="/projects/osl-footwear">BiiiiG Stretch</a>, a shoe stretcher that someone with low hand strength can use on their own. The team won the Community Choice Award for Most Impactful Project.</p>
+        <p>I also treat data as a material. <a href="/projects/firefly-flash-patterns">Firefly Flash Patterns</a> replays the real flash rhythms of seven firefly species in stitched light, and <a href="/projects/readit-nyc">ReadIt NYC</a> maps how Reddit talks about New York neighborhoods. <a href="/projects/after-us-the-wild">After Us, the Wild</a> is a digital fashion collection built from generative code.</p>
+        <p>By day I design apparel at G-III Apparel Group, taking women's activewear and outerwear collections from range plan to vendor samples. It keeps me close to what it takes to ship a real product.</p>
+        <div class="btn-row">
+          <a class="btn solid" href="/contact">Get in touch</a>
+          <a class="btn" href="/cv">View CV</a>
+          <a class="btn" href="/#work">See the work</a>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">How I work</h2>
+    <ul class="trio">
+      <li>
+        <span class="mono">01</span>
+        <h3>Materials first</h3>
+        <p>I start from cloth, thread and foam, and let the electronics follow the material instead of the other way round.</p>
+      </li>
+      <li>
+        <span class="mono">02</span>
+        <h3>Design with, not for</h3>
+        <p>I build alongside the person who will use the thing, and I let what their body already does well set the brief.</p>
+      </li>
+      <li>
+        <span class="mono">03</span>
+        <h3>Say what it can't do</h3>
+        <p>Every project page lists its limits. A prototype tested with one person is evidence, not proof.</p>
+      </li>
+    </ul>
+
+    <h2 class="section-title">What I work with</h2>
+    <ul class="chips">
+      <li>E-textiles and soft circuits</li>
+      <li>Circuit Playground Express</li>
+      <li>Conductive thread</li>
+      <li>Pressure sensing with Velostat</li>
+      <li>Python</li>
+      <li>React and deck.gl</li>
+      <li>p5.js</li>
+      <li>CLO 3D</li>
+      <li>Adobe Illustrator</li>
+      <li>3D printing</li>
+      <li>Co-design and user research</li>
+      <li>Machine learning classifiers</li>
+    </ul>
+  </section>
 </Base>

@@ -3,13 +3,15 @@ title: "ReadIt NYC"
 summary: "An interactive 3D map of how Reddit talks about New York neighborhoods: 438 r/nyc posts scored for sentiment, with color for sentiment, size for engagement and height for how strongly a post reads."
 tags: "Data visualization, Sentiment analysis, deck.gl, Python"
 order: 5
+theme: readit
+facts: "Context: Data as Material, Parsons | When: Spring 2026 | Data: 438 posts from r/nyc | Built with: React, deck.gl, Python, RoBERTa sentiment model"
 ---
 
 ![ReadIt NYC: a dark 3D map of New York with spheres on stems over neighborhoods, colored green, violet and red by sentiment](/images/readit/readit-overview.jpg)
 
 ReadIt NYC is an interactive map of how people on Reddit talk about New York neighborhoods. Each sphere is one post from r/nyc. Its color is the post's sentiment, its size is how much engagement it got, and its height is how strongly the post reads. I made it for Data as Material (Parsons, Spring 2026).
 
-**[Open the live map](https://aadya-26.github.io/readit-nyc/)** (best on a desktop browser)
+<div id="readit-embed"></div>
 
 ## How to read it
 
@@ -52,4 +54,5 @@ Negative posts also drew the most attention. Their median engagement is 102, aga
 
 [WRITE 2 TO 4 SENTENCES IN YOUR OWN WORDS: what building this taught you about what a map like this can and cannot claim.]
 
+<script src="/readit-embed.js" defer></script>
 <script src="/readit-charts.js" defer></script>

@@ -3,19 +3,114 @@ import Base from '../../layouts/Base.astro';
 
 export function getStaticPaths() {
   const modules = import.meta.glob('../../projects/*.md', { eager: true });
-  return Object.entries(modules).map(([path, mod]) => ({
-    params: { slug: path.split('/').pop().replace('.md', '') },
-    props: { project: mod },
+  const all = Object.entries(modules)
+    .map(([path, mod]) => ({ slug: path.split('/').pop().replace('.md', ''), mod }))
+    .sort((a, b) => a.mod.frontmatter.order - b.mod.frontmatter.order);
+  const n = all.length;
+  return all.map((p, i) => ({
+    params: { slug: p.slug },
+    props: { project: p.mod, index: i, total: n, next: all[(i + 1) % n], prev: all[(i - 1 + n) % n] },
   }));
 }
 
-const { project } = Astro.props;
+const { project, index, total, next, prev } = Astro.props;
 const { Content, frontmatter } = project;
+const theme = frontmatter.theme || 'home';
+const tags = String(frontmatter.tags || '').split(',').map((t) => t.trim()).filter(Boolean);
+const facts = String(frontmatter.facts || '').split('|').map((f) => f.split(':')).filter((f) => f.length > 1).map(([k, ...v]) => [k.trim(), v.join(':').trim()]);
+const chapters = (project.getHeadings ? project.getHeadings() : []).filter((h) => h.depth === 2);
+const pad = (n) => String(n).padStart(2, '0');
+
+// Firefly: fixed points of light at the page edges, never on text
+const dots = [
+  [3, 18, '#f2c063', 5, 3.2], [96, 12, '#8ff0a4', 6, 5.1], [4, 62, '#8ff0a4', 4, 4.3], [97, 48, '#f2c063', 5, 2.7],
+  [2, 86, '#f2c063', 4, 6.0], [95, 80, '#f2c063', 6, 3.8], [5, 38, '#f2c063', 3, 4.9], [94, 30, '#8ff0a4', 4, 3.4],
+  [98, 66, '#8ff0a4', 3, 5.6], [5, 5, '#f2c063', 4, 4.1], [96, 95, '#8ff0a4', 5, 2.9], [3, 96, '#f2c063', 3, 5.3],
+];
+// ReadIt: stems with spheres, in the map's sentiment colors (decorative, not data)
+const palette = ['#64ffa0', '#787aff', '#ff506e', '#787aff', '#00e65a', '#787aff', '#dc1414'];
+const stems = Array.from({ length: 26 }, (_, i) => ({
+  h: 18 + ((i * 37) % 71),
+  s: 8 + ((i * 13) % 17),
+  c: palette[(i * 5) % palette.length],
+}));
 ---
-<Base title={`${frontmatter.title} | Aadya`} description={frontmatter.summary}>
+<Base title={`${frontmatter.title} | Aadya`} description={frontmatter.summary} theme={theme}>
+  <Fragment slot="backdrop">
+    {theme === 'wild' && (
+      <div class="wild-bg" aria-hidden="true"><i class="ruin"></i><i class="moss"></i><canvas class="moss-field"></canvas><i class="grain"></i></div>
+    )}
+    {theme === 'firefly' && (
+      <div class="fireflies" aria-hidden="true">
+        {dots.map(([x, y, c, s, d], i) => (
+          <span style={`--x:${x}%;--y:${y}%;--from:${i * 6}%;--to:${i * 6 + 12}%`}>
+            <i style={`--c:${c};--s:${s}px;--d:${d}s;--delay:-${(i * 0.7).toFixed(1)}s`}></i>
+          </span>
+        ))}
+      </div>
+    )}
+  </Fragment>
+
   <article class="project">
-    <h1>{frontmatter.title}</h1>
-    <p class="tags">{frontmatter.tags}</p>
-    <Content />
+    <header class="p-head wrap">
+      <div class="p-deco" aria-hidden="true">
+        {theme === 'octi' && <div class="octi-keys">{[0, 1, 2, 3].map((k) => <i style={`--k:${k}`}></i>)}</div>}
+        {theme === 'firefly' && <div class="firefly-glow"></div>}
+        {theme === 'readit' && (
+          <div class="readit-sky">{stems.map((s, i) => <i style={`--h:${s.h}%;--s:${s.s}px;--c:${s.c};--k:${i}`}></i>)}</div>
+        )}
+      </div>
+      <p class="kicker"><a href="/#work">Work</a><span aria-hidden="true">/</span><span>{pad(index + 1)} of {pad(total)}</span></p>
+      <h1 style={`view-transition-name: title-${Astro.params.slug}`}>{frontmatter.title}</h1>
+      <div class="p-meta">
+        <p class="p-summary">{frontmatter.summary}</p>
+        <ul class="tags" aria-label="Disciplines">
+          {tags.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+      {facts.length > 0 && (
+        <dl class="facts">
+          {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      )}
+      {chapters.length > 1 && (
+        <nav class="toc" aria-label="On this page">
+          <span class="toc-label" aria-hidden="true">Jump to</span>
+          <ol>
+            {chapters.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+          </ol>
+        </nav>
+      )}
+    </header>
+
+    {theme === 'osl' && (
+      <div class="osl-band" aria-hidden="true">
+        <div>{[0, 1, 2, 3, 4, 5].map(() => <span>{frontmatter.title}</span>)}</div>
+      </div>
+    )}
+
+    <div class="story">
+      <Content />
+    </div>
+
+    <nav class="pager" aria-label="More projects">
+      <a class={`next-card prev t-${prev.mod.frontmatter.theme || 'home'}`} href={`/projects/${prev.slug}`}>
+        <p class="kicker">Previous project</p>
+        <p class="next-title"><span>{prev.mod.frontmatter.title}</span><span class="next-arrow" aria-hidden="true">←</span></p>
+        <p class="next-sum">{prev.mod.frontmatter.summary}</p>
+      </a>
+      <a class={`next-card t-${next.mod.frontmatter.theme || 'home'}`} href={`/projects/${next.slug}`}>
+        <p class="kicker">Next project</p>
+        <p class="next-title"><span>{next.mod.frontmatter.title}</span><span class="next-arrow" aria-hidden="true">→</span></p>
+        <p class="next-sum">{next.mod.frontmatter.summary}</p>
+      </a>
+    </nav>
+    <p class="allwork"><a class="btn" href="/#work">All work</a></p>
   </article>
+
+  <script>
+    import { initMoss } from '../../scripts/moss.js';
+    const field = document.querySelector('canvas.moss-field');
+    if (field) initMoss(field);
+  </script>
 </Base>
